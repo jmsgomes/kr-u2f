@@ -150,18 +150,17 @@ export function injectU2fInterface() {
                 }, window));
                 window.postMessage(registerRequest, window.location.origin);
                 return cb.then(exportFunction((r) => {
-                    let webauthnResponse = cloneInto(
-                                                        webauthnParse(r.responseData.credential),
-                                                        window,
-                                                        { cloneFunctions: true },
-                                                      );
-
-                        
-                    Object.defineProperty(webauthnResponse, 'getClientExtensionResults', function() {
+                  const webauthnResponse = cloneInto(
+                      webauthnParse(r.responseData.credential),
+                      window,
+                      {cloneFunctions: true},
+                  );
+                  Object.defineProperty(
+                      webauthnResponse, 'getClientExtensionResults',
+                      function() {
                         return {};
-                    });                                                               
-                                
-                    return webauthnResponse;
+                      });
+                  return webauthnResponse;
                 }, window));
             } catch (e) {
                 console.error(e);
